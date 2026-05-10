@@ -3,14 +3,10 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp1
 {
-    /// <summary>
     /// Masaüstü uygulamasının işletim sistemi tarafından yürütülmeye başlandığı başlangıç sınıfı.
-    /// </summary>
     static class Program
     {
-        /// <summary>
         /// Uygulamanın ana giriş noktasıdır (Entry Point). Bellek alanını ve UI iş parçacığını (Thread) yapılandırır.
-        /// </summary>
         [STAThread]
         static void Main()
         {
