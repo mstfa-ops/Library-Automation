@@ -13,7 +13,7 @@ namespace WindowsFormsApp1
     public class VeritabaniBaglantisi
     {
         // KutuphaneDB_Final veritabanına işaret eden güncel bağlantı dizesi
-        string connectionString = @"Server=(localdb)\MSSQLLocalDB;Database=KutuphaneDB_Final;Integrated Security=True;";
+        string connectionString = @"Server=localhost;Database=KutuphaneDB_Final;Integrated Security=True;";
 
         /// <summary>
         /// Geriye veri döndürmeyen (INSERT, UPDATE, DELETE) parametrik sorguları ve yordamları çalıştırır.
