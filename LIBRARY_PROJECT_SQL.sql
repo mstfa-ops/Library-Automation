@@ -1,9 +1,8 @@
-/*========================================================================================
-   PROJE ADI: ÜNİVERSİTE KÜTÜPHANE OTOMASYONU (FİNAL SÜRÜMÜ)
-   GELİŞTİRİCİ: (Kendi Adınızı Yazın)
-   AÇIKLAMA: Bu SQL betiği, yepyeni bir veritabanı (KutuphaneDB_Final) oluşturarak 
-             tüm tabloları, kısıtlamaları ve otomasyon kurallarını sıfırdan kurar.
-========================================================================================*/
+/*
+   PROJE ADI: ÜNİVERSİTE KÜTÜPHANE OTOMASYONU 
+   AÇIKLAMA: Bu SQL betiği, yepyeni bir veritabanı oluşturarak 
+   tüm tabloları, kısıtlamaları ve otomasyon kurallarını sıfırdan kurar.
+*/
 
 CREATE DATABASE KutuphaneDB_Final;
 GO
@@ -15,9 +14,9 @@ GO
 ALTER DATABASE SCOPED CONFIGURATION SET IDENTITY_CACHE = OFF;
 GO
 
-/*========================================================================================
-   1. VERİTABANI TABLOLARI VE İLİŞKİLERİ (DDL)
-========================================================================================*/
+/*
+   1. VERİTABANI TABLOLARI VE İLİŞKİLERİ 
+*/
 
 -- Sistemdeki hiyerarşik rolleri ve bu rollere ait iade esnekliklerini tutan tablo
 CREATE TABLE Roller(
@@ -109,9 +108,9 @@ CREATE TABLE LogKayitlari(
 );
 GO
 
-/*========================================================================================
+/*
    2. VARSAYILAN SİSTEM VERİLERİNİN EKLENMESİ (DML)
-========================================================================================*/
+*/
 
 -- Roller ve iade süreleri tanımlanır (Yöneticiler süresiz, kullanıcılar hiyerarşik sürelere tabidir)
 INSERT INTO Roller (RolID, RolAdi, IadeSuresiGun) VALUES 
@@ -126,9 +125,9 @@ INSERT INTO Kullanicilar(AdSoyad, KullaniciNo, Email, Sifre, RolID)
 VALUES('Kurucu Mudur', 'ADMIN001', 'kurucu@kutuphane.com', '1234', 1);
 GO
 
-/*========================================================================================
+/*
    3. SAKLI YORDAMLAR (STORED PROCEDURES)
-========================================================================================*/
+*/
 
 -- Sisteme yeni bir kullanıcı veya akademisyen kaydeder
 CREATE PROCEDURE sp_UyeOl
@@ -183,9 +182,9 @@ BEGIN
 END
 GO
 
-/*========================================================================================
+/*
    4. OTOMASYON TETİKLEYİCİLERİ (TRIGGERS)
-========================================================================================*/
+*/
 
 -- Bir materyal iade edildiği anda arka planda otomatik tetiklenen kural zinciri.
 -- Stokları günceller ve gecikme süresi varsa saniye bazlı ceza tahakkuk ettirir.
