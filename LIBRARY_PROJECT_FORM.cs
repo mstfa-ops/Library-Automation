@@ -7,17 +7,13 @@ using System.Windows.Forms;
 namespace WindowsFormsApp1
 {
     #region 1. VERİ EKSTRAKSİYON VE BAĞLANTI KATMANI (DATA ACCESS LAYER)
-    /// <summary>
     /// Veritabanı bağlantı döngülerini ve parametrik SQL sorgularını yöneten soyutlanmış erişim sınıfı.
-    /// </summary>
     public class VeritabaniBaglantisi
     {
         // KutuphaneDB_Final veritabanına işaret eden güncel bağlantı dizesi
-        string connectionString = @"Server=localhost;Database=KutuphaneDB_Final;Integrated Security=True;";
+        string connectionString = @"Server=(localdb)\MSSQLLocalDB;Database=KutuphaneDB_Final;Integrated Security=True;";
 
-        /// <summary>
         /// Geriye veri döndürmeyen (INSERT, UPDATE, DELETE) parametrik sorguları ve yordamları çalıştırır.
-        /// </summary>
         public void ParametreliSorguCalistir(string sorgu, params SqlParameter[] parametreler)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -32,9 +28,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        /// <summary>
         /// Veritabanından veri kümelerini (SELECT) parametrik olarak çeker ve DataTable nesnesi halinde döndürür.
-        /// </summary>
         public DataTable VeriGetir(string sorgu, params SqlParameter[] parametreler)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -51,9 +45,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        /// <summary>
         /// Saklı yordam (Stored Procedure) kullanarak yeni bir kullanıcı hesabı kaydeder.
-        /// </summary>
         public void UyeOl(string adSoyad, string kulNo, string email, string sifre, int rolId)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -70,10 +62,8 @@ namespace WindowsFormsApp1
             }
         }
 
-        /// <summary>
         /// Kullanıcı kimlik doğrulamasını (Authentication) gerçekleştirir. 
         /// Sadece Durum=1 (Aktif) olan hesapların yetkilendirilmesine izin verilir.
-        /// </summary>
         public int[] GirisYap(string email, string sifre)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -90,9 +80,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        /// <summary>
         /// Envanterden kullanıcı üzerine kitap zimmetleme yordamını tetikler.
-        /// </summary>
         public void KitapOduncAl(int kullaniciId, int kitapId)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -106,9 +94,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        /// <summary>
         /// Envantere yeni bir yayın veya materyal kaydeder.
-        /// </summary>
         public void KitapEkle(string ad, string yazar, int kategori, int stok, int basimYili, string isbn)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -126,9 +112,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        /// <summary>
         /// Mevcut bir materyalin stok ve başlık bilgilerini günceller.
-        /// </summary>
         public void KitapGuncelle(int id, string yeniAd, int yeniStok)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -187,9 +171,7 @@ namespace WindowsFormsApp1
         }
 
         #region 2. GÖRSEL ARAYÜZ (UI) MİMARİSİNİN OLUŞTURULMASI
-        /// <summary>
         /// Kullanıcı kimlik doğrulama panelini dinamik olarak çizer.
-        /// </summary>
         private void GirisEkraniniOlustur()
         {
             pnlGiris.Dock = DockStyle.Fill;
@@ -207,9 +189,7 @@ namespace WindowsFormsApp1
             this.Controls.Add(pnlGiris);
         }
 
-        /// <summary>
         /// Yeni kayıt formunu ve veri giriş elemanlarını çizer.
-        /// </summary>
         private void KayitEkraniniOlustur()
         {
             pnlKayit.Dock = DockStyle.Fill;
@@ -233,9 +213,7 @@ namespace WindowsFormsApp1
             this.Controls.Add(pnlKayit);
         }
 
-        /// <summary>
         /// Yöneticilere (Admin) ayrılmış sekmeli envanter ve kullanıcı denetim sayfasını çizer.
-        /// </summary>
         private void AdminPaneliOlustur()
         {
             tabAdmin.Dock = DockStyle.Fill; 
@@ -287,9 +265,7 @@ namespace WindowsFormsApp1
             this.Controls.Add(tabAdmin);
         }
 
-        /// <summary>
         /// Öğrenci ve Akademisyenlere ayrılmış zimmet, rezervasyon ve talep arayüzünü çizer.
-        /// </summary>
         private void OgrenciPaneliOlustur()
         {
             tabOgrenci.Dock = DockStyle.Fill; 
@@ -336,9 +312,7 @@ namespace WindowsFormsApp1
         #endregion
 
         #region 3. İŞ KULLANIM KONTROLLERİ VE OLAY YÖNETİMİ (BUSINESS LOGIC LAYER)
-        /// <summary>
         /// Kullanıcı giriş sürecini, yetki denetimlerini ve sayfa yönlendirmelerini yönetir.
-        /// </summary>
         private void BtnGiris_Click(object sender, EventArgs e)
         {
             int[] sonuc = db.GirisYap(txtEmail.Text, txtSifre.Text);
@@ -366,9 +340,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        /// <summary>
         /// Yeni üye kaydı form verilerini doğrulayarak sisteme aktarır.
-        /// </summary>
         private void BtnKayit_Click(object sender, EventArgs e)
         {
             try 
@@ -385,9 +357,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        /// <summary>
         /// Yöneticilerin sistemdeki bir hesabı pasife alması sırasındaki hiyerarşik yetki kurallarını denetler.
-        /// </summary>
         private void BtnKullaniciSil_Click(object sender, EventArgs e)
         {
             if (dgvAdminUyeler.SelectedRows.Count > 0)
@@ -414,9 +384,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        /// <summary>
         /// Satın alma taleplerini yönetici onayı ile tamamlanmış statüye geçirir.
-        /// </summary>
         private void BtnTalepTamamla_Click(object sender, EventArgs e)
         {
             if (dgvYeniTalepler.SelectedRows.Count > 0)
@@ -428,9 +396,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        /// <summary>
         /// Yönetici envanter tablosunda tıklanan satırdaki verileri düzenleme kutucuklarına aktarır.
-        /// </summary>
         private void DgvAdminKitaplar_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // Tıklanan satırın yeni ekleme satırı (boş satır) olup olmadığı denetlenir
@@ -447,9 +413,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        /// <summary>
         /// Form kutucuklarındaki verileri kontrol ederek kütüphaneye yeni yayın kaydeder.
-        /// </summary>
         private void BtnEkle_Click(object sender, EventArgs e)
         {
             try 
@@ -464,9 +428,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        /// <summary>
         /// Seçili kitabın stok miktarı veya isim verilerini veritabanında günceller.
-        /// </summary>
         private void BtnGuncelle_Click(object sender, EventArgs e)
         {
             try 
@@ -482,9 +444,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        /// <summary>
         /// Seçilen kitabı arayüzden ve dolaşımdan gizler (Soft Delete).
-        /// </summary>
         private void BtnSil_Click(object sender, EventArgs e)
         {
             try 
@@ -502,9 +462,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        /// <summary>
         /// Kullanıcının seçtiği materyali ödünç alma isteğini işler. Stok durumunu denetler.
-        /// </summary>
         private void BtnOduncAl_Click(object sender, EventArgs e)
         {
             // Boş satıra tıklama hatalarını engellemek için IsNewRow kontrolü yapılır
@@ -525,9 +483,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        /// <summary>
         /// Stoku bulunmayan kitaplar için kullanıcıyı veritabanında bekleme sırasına alır.
-        /// </summary>
         private void BtnRezervasyon_Click(object sender, EventArgs e)
         {
             if (dgvOgrenciKutuphane.SelectedRows.Count > 0 && !dgvOgrenciKutuphane.SelectedRows[0].IsNewRow)
@@ -538,9 +494,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        /// <summary>
         /// Kullanıcı üzerindeki materyali kütüphaneye iade eder. Gecikme ve ceza tahakkukunu denetler.
-        /// </summary>
         private void BtnIade_Click(object sender, EventArgs e)
         {
             if (dgvOgrenciAldiklarim.SelectedRows.Count > 0 && !dgvOgrenciAldiklarim.SelectedRows[0].IsNewRow)
@@ -565,10 +519,8 @@ namespace WindowsFormsApp1
             }
         }
 
-        /// <summary>
         /// Kullanıcı sisteme girdiğinde, geçmiş taleplerinin veya bekleyen rezervasyonlarının 
         /// durumunu kontrol ederek pasif uyarı pencereleri (Push Notifications) üretir.
-        /// </summary>
         private void BildirimleriKontrolEt()
         {
             // 1. Yönetici tarafından onaylanmış yeni yayın taleplerinin bildirimi
@@ -588,9 +540,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        /// <summary>
         /// Veritabanındaki güncel veri durumunu çekerek arayüzdeki DataGridView tablolarını tazeler.
-        /// </summary>
         private void TablolariYenile()
         {
             // Yönetici Görünümleri (Sadece henüz silinmemiş aktif hesaplar ve kitaplar filtrelenir)
@@ -618,9 +568,7 @@ namespace WindowsFormsApp1
         }
 
         #region DESIGNER.CS UYUM KÖPRÜSÜ
-        /// <summary>
         /// Form1.Designer.cs dosyasının otomatik aradığı ve hata vermesini önleyen boş yükleme olayıdır.
-        /// </summary>
         private void Form1_Load(object sender, EventArgs e)
         {
             // UI kısımları yapıcı metotta (Constructor) yüklendiği için bu alan boş bırakılmıştır.
